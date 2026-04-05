@@ -1,10 +1,9 @@
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var { loadEnvFile } = require('node:process');
+require('dotenv').config();
 var { authRouter, usersRouter, leaderboardRouter, reportRouter, scoreRouter } = require('./src/routes');
 const { specs, swaggerUi } = require('./config/swagger');
-loadEnvFile();
 
 var app = express();
 

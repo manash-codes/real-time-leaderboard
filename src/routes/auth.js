@@ -28,7 +28,7 @@ router.post('/register', authController.register);
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     summary: login a user
  *     description: logs in a user
