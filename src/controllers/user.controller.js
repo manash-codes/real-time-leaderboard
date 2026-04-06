@@ -1,5 +1,8 @@
-const getUserById = (req, res) => {
-    res.json({ title: "called" })
+const getUser = (req, res) => {
+    const id = req.user._id
+    if (!id) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+    res.json({ success: true, message: "User found successfully", user: req.user })
 }
 
 const upatedUserById = (req, res) => {
@@ -11,7 +14,7 @@ const deleteUserById = (req, res) => {
 }
 
 module.exports = {
-    getUserById,
+    getUser,
     upatedUserById,
     deleteUserById
 }

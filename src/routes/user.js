@@ -1,4 +1,5 @@
 var express = require('express');
+const { getUser } = require('../controllers/user.controller');
 var router = express.Router();
 
 /**
@@ -56,20 +57,13 @@ router.get('/', function (req, res, next) {
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users:
  *   get:
  *     summary: Get a user
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user ID
  *     responses:
  *       200:
- *         description: Get a user by id
+ *         description: Get a user data
  *         content:
  *           application/json:
  *             schema:
@@ -78,9 +72,7 @@ router.get('/', function (req, res, next) {
  *                 $ref: '#/components/schemas/User'
  */
 /* GET users listing. */
-router.get('/:id', function (req, res, next) {
-  res.send('respond with a resource');
-});
+router.get('/', getUser);
 
 /**
  * @swagger
