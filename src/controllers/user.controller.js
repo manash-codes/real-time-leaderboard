@@ -5,16 +5,16 @@ const getUser = (req, res) => {
     res.json({ success: true, message: "User found successfully", user: req.user })
 }
 
-const upatedUserById = (req, res) => {
+const upatedUser = (req, res) => {
     res.json({ title: "called" })
 }
 
-const deleteUserById = (req, res) => {
+const deleteUser = (req, res) => {
     res.json({ title: "called" })
 }
 
 module.exports = {
     getUser,
-    upatedUserById,
-    deleteUserById
+    upatedUser,
+    deleteUser
 }
