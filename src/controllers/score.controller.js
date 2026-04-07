@@ -1,8 +1,12 @@
-const getScore = (req, res) => {
+const getScore = async (req, res) => {
     res.json({ title: "called" })
 }
 
-const addScore = (req, res) => {
+const getScoreHistory = async (req, res) => {
+    res.json({ title: "called" })
+}
+
+const addScore = async (req, res) => {
     res.json({ title: "called" })
 }
 

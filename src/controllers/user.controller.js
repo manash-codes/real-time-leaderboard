@@ -19,9 +19,9 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = (req, res) => {
+const deleteUser = async (req, res) => {
     try {
-        User.deleteOne({ _id: req.user._id });
+        await User.deleteOne({ _id: req.user._id });
         res.json({ success: true, message: "User deleted successfully" })
     } catch (error) {
         console.log(error);
