@@ -1,20 +1,36 @@
 const getUser = (req, res) => {
-    const id = req.user._id
-    if (!id) return res.status(401).json({ success: false, message: "Unauthorized" });
-
-    res.json({ success: true, message: "User found successfully", user: req.user })
+    try {
+        res.json({ success: true, message: "User found successfully", user: req.user })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
 }
 
-const upatedUser = (req, res) => {
-    res.json({ title: "called" })
+const updateUser = async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (req.user.name !== name) return res.status(400).json({ success: false, message: "Invalid name" });
+        await User.updateOne({ _id: req.user._id }, { name });
+        res.json({ success: true, message: "User updated successfully" })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
 }
 
 const deleteUser = (req, res) => {
-    res.json({ title: "called" })
+    try {
+        User.deleteOne({ _id: req.user._id });
+        res.json({ success: true, message: "User deleted successfully" })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
 }
 
 module.exports = {
     getUser,
-    upatedUser,
+    updateUser,
     deleteUser
 }

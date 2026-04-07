@@ -1,5 +1,5 @@
 var express = require('express');
-const { getUser } = require('../controllers/user.controller');
+const { getUser, updateUser, deleteUser } = require('../controllers/user.controller');
 var router = express.Router();
 
 /**
@@ -76,23 +76,20 @@ router.get('/', getUser);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users:
  *   put:
  *     summary: Update a user
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user ID
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The user's name
  *     responses:
  *       200:
  *         description: The updated user
@@ -104,23 +101,14 @@ router.get('/', getUser);
  *         description: User not found
  */
 /* GET users listing. */
-router.put('/:id', function (req, res, next) {
-  res.send('respond with a resource');
-});
+router.put('/:id', updateUser);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users:
  *   delete:
  *     summary: Delete a user
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user ID
  *     responses:
  *       200:
  *         description: User deleted successfully
@@ -128,8 +116,6 @@ router.put('/:id', function (req, res, next) {
  *         description: User not found
  */
 /* GET users listing. */
-router.delete('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+router.delete('/', deleteUser);
 
 module.exports = router;
