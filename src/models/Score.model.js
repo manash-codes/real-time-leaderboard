@@ -7,7 +7,7 @@ const scoreSchema = new Schema({
     },
     type: {
         required: true,
-        type: Number,
+        type: String,
         default: 'game'
     },
     user: {
