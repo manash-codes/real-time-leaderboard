@@ -17,7 +17,7 @@ var router = express.Router();
  *           type: number
  *           description: The score
  *         type:
- *           type: number
+ *           type: string
  *           description: The type of score
  */
 

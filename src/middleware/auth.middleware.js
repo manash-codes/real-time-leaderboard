@@ -7,7 +7,11 @@ module.exports = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        if (!decoded) return res.status(401).json({ success: false, message: "Invalid token" });
+
+        const user = await UserModel.findById(decoded.id);
+        if (!user) return res.status(401).json({ success: false, message: "User not found" });
+        req.user = user;
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
