@@ -3,16 +3,20 @@ const { Schema, model } = require("mongoose");
 const scoreSchema = new Schema({
     score: {
         required: true,
-        type: Number
+        type: Number,
+        min: ['0', "Score cannot be negative"],
     },
     type: {
         required: true,
+        trim: true,
         type: String,
-        default: 'game'
+        lowercase: true
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'UserModel'
+        ref: 'UserModel',
+        required: true,
+        index: true,
     }
 })
 
