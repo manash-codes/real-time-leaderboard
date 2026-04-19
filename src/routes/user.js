@@ -38,27 +38,6 @@ var router = express.Router();
  * @swagger
  * /api/users:
  *   get:
- *     summary: Get all users
- *     tags: [Users]
- *     responses:
- *       200:
- *         description: A list of users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
- */
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
-
-/**
- * @swagger
- * /api/users:
- *   get:
  *     summary: Get a user
  *     tags: [Users]
  *     responses:
@@ -101,7 +80,7 @@ router.get('/', getUser);
  *         description: User not found
  */
 /* GET users listing. */
-router.put('/:id', updateUser);
+router.put('/', updateUser);
 
 /**
  * @swagger
