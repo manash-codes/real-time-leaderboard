@@ -6,23 +6,23 @@ var authController = require('../controllers/auth.controller');
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Create a new user
- *     tags: [auth]
+ *     summary: Register a new user
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: object
+ *             required: [name, email, username, password]
+ *             properties:
+ *               name:     { type: string }
+ *               email:    { type: string, format: email }
+ *               username: { type: string }
+ *               password: { type: string, minLength: 8 }
  *     responses:
- *       201:
- *         description: The created user
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       400:
- *         description: Invalid input
+ *       201: { description: User registered }
+ *       400: { description: Validation error or email/username taken }
  */
 router.post('/register', authController.register);
 
@@ -32,7 +32,7 @@ router.post('/register', authController.register);
  *   post:
  *     summary: login a user
  *     description: logs in a user
- *     tags: [auth]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:
@@ -53,6 +53,15 @@ router.post('/register', authController.register);
  *         description: invalid request
  */
 router.post('/login', authController.login);
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Log out (clears auth cookie)
+ *     tags: [Auth]
+ */
+router.post('/logout', authController.logout);
 
 module.exports = router;
 

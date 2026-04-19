@@ -11,17 +11,18 @@ const register = async (req, res) => {
             return res.status(400).json({ success: false, message: "Missing required fields" });
         }
 
-        const userExists = await UserModel.findOne({ email });
+        const userExists = await UserModel.findOne({ $or: [{ email }, { username }] });
         if (userExists) {
-            return res.status(400).json({ success: false, message: "User already exists" });
+            const field = userExists.email === email ? 'email' : 'username';
+            return res.status(400).json({ success: false, message: `This ${field} is already taken` });
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
+        const user = await UserModel.create({ name, email, username, password: hashPassword });
 
-        const user = new UserModel({ name, email, username, password: hashPassword });
-        await user.save();
+        const { password: _pw, ...safeUser } = user.toObject();
 
-        res.json({ success: true, message: "User added successfully", user });
+        res.json({ success: true, message: "User added successfully", user: safeUser });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
@@ -32,21 +33,29 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await UserModel.findOne({ email });
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: 'Email and password are required' });
+        }
 
+        const user = await UserModel.findOne({ email });
         if (!user) {
-            return res.status(400).json({ success: false, message: "User not found" });
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
 
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
-            return res.status(400).json({ success: false, message: "Invalid password" });
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
 
         const token = jwt.sign({ id: user._id }, SECRET, { expiresIn: '1d' });
 
-        res.cookie('token', token, { httpOnly: true });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         res.json({ success: true, message: "User logged in successfully" });
     } catch (error) {
         console.log(error);
@@ -54,8 +63,14 @@ const login = async (req, res) => {
     }
 }
 
+const logout = (req, res) => {
+    res.clearCookie('token', { httpOnly: true, sameSite: 'strict' });
+    return res.status(500).json({ success: true, message: 'Logged out successfully' })
+}
+
 module.exports = {
     register,
-    login
+    login,
+    logout
 }
 
