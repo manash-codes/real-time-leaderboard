@@ -1,5 +1,8 @@
-const LEADERBOARD_KEY = 'leaderboard';
+const LEADERBOARD_GLOBAL_KEY = 'leaderboard:global';
+
+const leaderboadKey = (gameType) => `leaderboard:${gameType.toLowerCase()}`
 
 module.exports = {
-    LEADERBOARD_KEY
+    LEADERBOARD_GLOBAL_KEY,
+    leaderboardKey
 }

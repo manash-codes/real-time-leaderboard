@@ -18,6 +18,10 @@ const scoreSchema = new Schema({
         required: true,
         index: true,
     }
+}, {
+    timestamps: true
 })
+
+scoreSchema.index({ user: 1, type: 1, createdAt: -1 })
 
 module.exports = model("ScoreModel", scoreSchema)
