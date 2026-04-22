@@ -5,13 +5,21 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: 'My Express API',
+            title: 'Real-time Leaderboard API',
             version: '1.0.0',
-            description: 'A simple Express API with Swagger documentation',
+            description: 'JWT-authenticated leaderboard with Redis sorted sets and WebSocket push',
+        },
+        components: {
+            securitySchemes: {
+                cookieAuth: {
+                    type: 'apiKey',
+                    in: 'cookie',
+                    name: 'token',
+                },
+            },
         },
         servers: [{ url: 'http://localhost:3000' }],
     },
-    // Path to the API docs (files containing @swagger comments)
     apis: ['./src/routes/*.js'],
 };
 
