@@ -9,6 +9,7 @@ redisClient.on('error', (err) => {
     console.log('❌ Redis error:', err);
 });
 
+
 async function connectRedis() {
     if (!redisClient.isOpen) {
         await redisClient.connect();

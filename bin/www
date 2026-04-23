@@ -4,31 +4,45 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('real-time-leaderboard:server');
-var http = require('http');
-var connectDB = require('../config/database');
+const app = require('../app');
+const debug = require('debug')('real-time-leaderboard:server');
+const http = require('http');
+const connectDB = require('../config/database');
+const { connectRedis } = require('../config/redis');
+const { initWebSocekt } = require('../src/websocket');
+
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
+initWebSocekt(server)
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-connectDB().then(async () => {
-  // await connectRedis();
-  server.listen(port)
-});
+
+async function start() {
+  try {
+    await connectDB();
+    await connectRedis();
+    server.listen(port)
+  } catch (err) {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }
+}
+
+start()
+
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -37,7 +51,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -74,7 +88,6 @@ function onError(error) {
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }
