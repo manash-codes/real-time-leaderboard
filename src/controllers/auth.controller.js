@@ -4,13 +4,9 @@ const bcrypt = require('bcryptjs')
 const SECRET = process.env.JWT_SECRET
 
 const register = async (req, res) => {
-    const { name, email, username, password } = req.body;
+    const { name, email, username, password } = req.validated.body;
 
     try {
-        if (!name || !email || !username || !password) {
-            return res.status(400).json({ success: false, message: "Missing required fields" });
-        }
-
         const userExists = await UserModel.findOne({ $or: [{ email }, { username }] });
         if (userExists) {
             const field = userExists.email === email ? 'email' : 'username';

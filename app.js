@@ -5,7 +5,6 @@ require('dotenv').config();
 var { authRouter, usersRouter, leaderboardRouter, reportRouter, scoreRouter } = require('./src/routes');
 const { specs, swaggerUi } = require('./config/swagger');
 const authMiddleware = require('./src/middleware/auth.middleware');
-// const { connectRedis } = require('./config/redis');
 
 var app = express();
 
@@ -22,7 +21,5 @@ app.use('/api/users', usersRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/report', reportRouter);
 app.use('/api/score', scoreRouter);
-
-// connectRedis();
 
 module.exports = app;

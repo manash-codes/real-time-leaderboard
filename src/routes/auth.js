@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var authController = require('../controllers/auth.controller');
+const { registerValidation } = require('../validations');
 
 /**
  * @swagger
@@ -24,7 +25,7 @@ var authController = require('../controllers/auth.controller');
  *       201: { description: User registered }
  *       400: { description: Validation error or email/username taken }
  */
-router.post('/register', authController.register);
+router.post('/register', registerValidation, authController.register);
 
 /**
  * @swagger

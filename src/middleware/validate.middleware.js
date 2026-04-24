@@ -1,13 +1,21 @@
-const { validationResult } = require("express-validator");
+const { validationResult, matchedData } = require("express-validator");
 
 const validate = (req, res, next) => {
     const errors = validationResult(req);
 
+
     if (!errors.isEmpty()) {
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
-            errors: errors.mapped()
+            message: 'Validation failed',
+            errors: errors.array()
         })
+    }
+
+    req.validated = {
+        body: matchedData(req, { locations: ['body'] }),
+        params: matchedData(req, { locations: ['params'] }),
+        query: matchedData(req, { locations: ['query'] })
     }
 
     next();

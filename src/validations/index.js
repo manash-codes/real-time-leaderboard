@@ -4,6 +4,6 @@ const { scoreRules } = require("./rules/score.rules")
 
 
 module.exports = {
-    registerValidation: [...registerRules, validate],
-    scoreValidation: [...scoreRules, validate]
+    registerValidation: [registerRules, validate],
+    scoreValidation: [scoreRules, validate]
 }
