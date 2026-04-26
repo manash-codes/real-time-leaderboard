@@ -29,6 +29,28 @@ var router = express.Router();
  *   get:
  *     summary: Get all scores
  *     tags: [Score]
+ *     parameters:
+ *       - name: limit
+ *         in: query          
+ *         description: How many items to return
+ *         required: false     
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *       - name: page
+ *         in: query          
+ *         description: How many items to return
+ *         required: false     
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - name: type
+ *         in: query          
+ *         description: How many items to return
+ *         required: false     
+ *         schema:
+ *           type: string
+ *           default: global
  *     responses:
  *       200:
  *         description: A list of scores
@@ -68,6 +90,8 @@ router.get('/', getScore);
  *         description: The added score
  *         content:
  *           application/json:
+ *             parameters:
+ *             query:
  *             schema:
  *               properties:
  *                 success:
