@@ -4,6 +4,12 @@ This project is a real-time leaderboard system that allows users to view and com
 
 ---
 
+## Project URL
+
+https://roadmap.sh/projects/realtime-leaderboard-system
+
+---
+
 ## Features
 
 - 🏆 **Real-Time Updates**: See changes in leaderboard positions instantly.
@@ -143,7 +149,7 @@ const socket = new WebSocket('ws://localhost:3000');
 
 ## Author Info
 
-- [Your Name]
+- Manash Gupta
 - [GitHub Profile](https://github.com/manash-codes)
 
 ---
