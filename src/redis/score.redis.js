@@ -36,10 +36,10 @@ async function getUserRank({ userId, type }) {
     const key = type ? leaderboardKey(type) : LEADERBOARD_GLOBAL_KEY;
     const userIdStr = userId.toString();
 
-    const rank = redisClient.ZREVRANK(key, userIdStr);
+    const rank = await redisClient.ZREVRANK(key, userIdStr);
     if (rank === null) return null;
 
-    const score = redisClient.zScore(key, userIdStr);
+    const score = await redisClient.zScore(key, userIdStr);
 
     return { rank: rank + 1, score, userId: userIdStr }
 }

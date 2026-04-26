@@ -1,5 +1,5 @@
 var express = require('express');
-const { getLeaderboard } = require('../controllers/leaderboard.controller');
+const { getLeaderboard, getMyRank } = require('../controllers/leaderboard.controller');
 var router = express.Router();
 
 /**
@@ -29,4 +29,22 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', getLeaderboard);
 
+/**
+ * @swagger
+ * /api/leaderboard/rank:
+ *   get:
+ *     summary: Get the authenticated user's current rank
+ *     tags: [Leaderboard]
+ *     parameters:
+ *       - in: query
+ *         name: gameType
+ *         schema: { type: string }
+ *         description: Omit for global rank
+ *     responses:
+ *       200:
+ *         description: User's rank and score
+ *       404:
+ *         description: User has not submitted any scores yet
+ */
+router.get('/rank', getMyRank);
 module.exports = router;
