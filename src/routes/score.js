@@ -2,6 +2,7 @@ var express = require('express');
 const { getScore, addScore } = require('../controllers/score.controller');
 const { ScoreModel } = require('../models/Score.model');
 const { scoreValidation } = require('../validations');
+const { scoreRateLimit } = require('../middleware/rateLimit.middleware');
 var router = express.Router();
 
 /**
@@ -81,7 +82,7 @@ router.get('/', getScore);
  *                     type:
  *                       type: string
  */
-router.post('/', scoreValidation, addScore);
+router.post('/', scoreRateLimit, scoreValidation, addScore);
 
 module.exports = router;
 
